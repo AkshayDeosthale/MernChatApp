@@ -2,11 +2,17 @@ const express = require("express");
 const chats = require("./dummyData/data");
 const dotenv = require("dotenv");
 var cors = require("cors");
+const connectDb = require("./config/db");
+const colors = require("colors");
+
 const app = express();
 const port = process.env.PORT || 5000;
 
 dotenv.config();
 // app.use(cors());
+
+//mongodb
+connectDb();
 
 app.get("/", (req, res) => {
   res.json({ message: "Hello World!" });
@@ -22,5 +28,5 @@ app.get("/api/chat/:id", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Node is now listening on port ${port}`);
+  console.log(`Node is now listening on port ${port}`.yellow.bold);
 });
