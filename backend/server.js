@@ -4,8 +4,11 @@ const dotenv = require("dotenv");
 var cors = require("cors");
 const connectDb = require("./config/db");
 const colors = require("colors");
+const userRoutes = require("../backend/routes/userRoutes");
 
 const app = express();
+app.use(express.json()); //to accept json
+
 const port = process.env.PORT || 5000;
 
 dotenv.config();
@@ -18,14 +21,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Hello World!" });
 });
 
-app.get("/api/chat", cors(), (req, res) => {
-  res.send(chats);
-});
-
-app.get("/api/chat/:id", (req, res) => {
-  const singleChat = chats.find((c) => c._id === req.params.id);
-  res.send(singleChat);
-});
+app.use("/api/user", userRoutes);
 
 app.listen(port, () => {
   console.log(`Node is now listening on port ${port}`.yellow.bold);
